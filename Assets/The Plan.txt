@@ -1,0 +1,7 @@
+health drains as you attack
+longer you attack, the more damage you do
+both have a cap (kinda)
+
+level up system: hp regen, damage, speed
+
+skills: bomb (screen wipe), dash (i-frames), limit break
