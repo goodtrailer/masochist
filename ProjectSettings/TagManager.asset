@@ -11,9 +11,9 @@ TagManager:
   - 
   - Water
   - UI
-  - Playfield
-  - Characters
-  - Destroy
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -44,9 +44,15 @@ TagManager:
   - name: Playfield
     uniqueID: 3134107171
     locked: 0
+  - name: Characters
+    uniqueID: 2511592273
+    locked: 0
   - name: Bullets
     uniqueID: 427224003
     locked: 0
-  - name: Characters
-    uniqueID: 2511592273
+  - name: Overlay
+    uniqueID: 1609189651
+    locked: 0
+  - name: Hitbox
+    uniqueID: 2330569111
     locked: 0

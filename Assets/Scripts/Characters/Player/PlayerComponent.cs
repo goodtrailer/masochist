@@ -18,11 +18,12 @@ public struct PlayerComponent : IComponentData
     public float speedSprint;
 
     public bool normalizeSpeed;
+    public float accuracy;
 
     public CollisionFilter collisionFilter;
 }
 
-public class PlayerConversion : GameObjectConversionSystem
+public class PlayerConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
@@ -39,12 +40,11 @@ public class PlayerConversion : GameObjectConversionSystem
                 damage = p.damage,
                 speed = p.speed,
                 speedSprint = p.speedSprint,
+
                 normalizeSpeed = p.normalizeSpeed,
-                collisionFilter = new CollisionFilter
-                {
-                    BelongsTo = p.belongsTo.Value,
-                    CollidesWith = p.collidesWith.Value,
-                },
+                accuracy = p.accuracy,
+
+                collisionFilter = p.collisionFilter,
             });
         });
     }
