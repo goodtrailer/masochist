@@ -177,7 +177,11 @@ GameObject:
   - component: {fileID: 3980118649315155496}
   - component: {fileID: 6576264682495189561}
   - component: {fileID: 2351901728468279251}
-  - component: {fileID: 5973812322083910731}
+  - component: {fileID: 5946267257961254577}
+  - component: {fileID: 7358713934531358278}
+  - component: {fileID: 5959593322596424714}
+  - component: {fileID: 6411180692522627582}
+  - component: {fileID: 3294302337638146812}
   - component: {fileID: 4960647982373706418}
   m_Layer: 0
   m_Name: Player
@@ -242,7 +246,7 @@ MonoBehaviour:
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
     m_SimplificationTolerance: 0.015
-    m_BevelRadius: 0.05
+    m_BevelRadius: 0
     m_MinimumAngle: 2.5000002
   m_CustomMesh: {fileID: 0}
   m_ForceUnique: 0
@@ -251,11 +255,11 @@ MonoBehaviour:
     m_Template: {fileID: 0}
     m_CollisionResponse:
       m_Override: 0
-      m_Value: 3
+      m_Value: 0
     m_Friction:
       m_Override: 0
       m_Value:
-        Value: 0.5
+        Value: 0
         CombineMode: 0
     m_Restitution:
       m_Override: 0
@@ -303,9 +307,9 @@ MonoBehaviour:
         Category00: 0
         Category01: 1
         Category02: 1
-        Category03: 1
-        Category04: 0
-        Category05: 0
+        Category03: 0
+        Category04: 1
+        Category05: 1
         Category06: 0
         Category07: 0
         Category08: 0
@@ -358,7 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MotionType: 0
-  m_Smoothing: 0
+  m_Smoothing: 2
   m_Mass: 1
   m_LinearDamping: 100
   m_AngularDamping: 100
@@ -395,7 +399,7 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
---- !u!114 &5973812322083910731
+--- !u!114 &5946267257961254577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -404,84 +408,77 @@ MonoBehaviour:
   m_GameObject: {fileID: 5830626119289531176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a508753ca49b2594db8e5b5af0c59ecc, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d1b213f04dc83a41b8a9a74ec52b9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  stamina: 20
-  damage: 5
-  speed: 1.5
-  speedSprint: 3
-  normalizeSpeed: 1
-  accuracy: 0
-  collisionFilter:
-    belongsTo:
-      Category00: 0
-      Category01: 0
-      Category02: 0
-      Category03: 1
-      Category04: 0
-      Category05: 0
-      Category06: 0
-      Category07: 0
-      Category08: 0
-      Category09: 0
-      Category10: 0
-      Category11: 0
-      Category12: 0
-      Category13: 0
-      Category14: 0
-      Category15: 0
-      Category16: 0
-      Category17: 0
-      Category18: 0
-      Category19: 0
-      Category20: 0
-      Category21: 0
-      Category22: 0
-      Category23: 0
-      Category24: 0
-      Category25: 0
-      Category26: 0
-      Category27: 0
-      Category28: 0
-      Category29: 0
-      Category30: 0
-      Category31: 0
-    collidesWith:
-      Category00: 0
-      Category01: 1
-      Category02: 0
-      Category03: 0
-      Category04: 0
-      Category05: 0
-      Category06: 0
-      Category07: 0
-      Category08: 0
-      Category09: 0
-      Category10: 0
-      Category11: 0
-      Category12: 0
-      Category13: 0
-      Category14: 0
-      Category15: 0
-      Category16: 0
-      Category17: 0
-      Category18: 0
-      Category19: 0
-      Category20: 0
-      Category21: 0
-      Category22: 0
-      Category23: 0
-      Category24: 0
-      Category25: 0
-      Category26: 0
-      Category27: 0
-      Category28: 0
-      Category29: 0
-      Category30: 0
-      Category31: 0
-    groupIndex: 0
+  HealthRegen: 2
+  HealthDecay: 5
+  StaminaRegen: 30
+  StaminaDecay: 80
+  SpeedWalk: 1.5
+  SpeedSprint: 3
+  LevelUpRatio: 3
+--- !u!114 &7358713934531358278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830626119289531176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b23353912f46cb419e1f623a6e8025f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+  HealthMax: 100
+--- !u!114 &5959593322596424714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830626119289531176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf91ab623297df499087d0bc5605d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stamina: 100
+  StaminaMax: 100
+--- !u!114 &6411180692522627582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830626119289531176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 177e1bbb5735f9c4389f0405c985ab40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackSpeed: 10
+  AttackRate: 8
+  DamageMultiplier: 1
+  LastAttackTime: 0
+--- !u!114 &3294302337638146812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830626119289531176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2800a393dac814546acd2f4ba1a45603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 0
+  Direction:
+    x: 0
+    y: 0
+    z: 0
 --- !u!114 &4960647982373706418
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 6349606693518127492}
   - component: {fileID: -4689116047628859623}
   - component: {fileID: -8632855083043431158}
-  - component: {fileID: 3030202213866192640}
+  - component: {fileID: 5950858382502664984}
+  - component: {fileID: 7014075775693703385}
+  - component: {fileID: 8527948625969242501}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -105,7 +107,7 @@ MonoBehaviour:
     z: 0
   m_PrimitiveSize:
     x: 0.2869793
-    y: 0.55914575
+    y: 0.5591457
     z: 1
   m_PrimitiveOrientation:
     Value:
@@ -115,18 +117,18 @@ MonoBehaviour:
     RotationOrder: 4
   m_Capsule:
     Height: 1
-    Radius: 0.27957287
+    Radius: 0.27957284
     Axis: 2
   m_Cylinder:
     Height: 1
-    Radius: 0.27957287
+    Radius: 0.27957284
     Axis: 2
   m_CylinderSideCount: 20
   m_SphereRadius: 0.5
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
     m_SimplificationTolerance: 0.015
-    m_BevelRadius: 0.05
+    m_BevelRadius: 0
     m_MinimumAngle: 2.5000002
   m_CustomMesh: {fileID: 0}
   m_ForceUnique: 0
@@ -242,7 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MotionType: 0
-  m_Smoothing: 0
+  m_Smoothing: 2
   m_Mass: 1
   m_LinearDamping: 100
   m_AngularDamping: 100
@@ -279,7 +281,7 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
---- !u!114 &3030202213866192640
+--- !u!114 &5950858382502664984
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -288,8 +290,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1227995274908198131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29594907fe04c3f40b9f34c21c5b59df, type: 3}
+  m_Script: {fileID: 11500000, guid: 198e147f4ecdd4d48b9109c53b8ffc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
-  speed: 10
+  Damage: 5
+--- !u!114 &7014075775693703385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227995274908198131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2800a393dac814546acd2f4ba1a45603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 0
+  Direction:
+    x: 0
+    y: 0
+    z: 0
+--- !u!114 &8527948625969242501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227995274908198131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514fa9a221a8ba749bff0502be2a6ac8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

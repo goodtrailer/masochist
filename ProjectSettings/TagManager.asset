@@ -47,7 +47,7 @@ TagManager:
   - name: Characters
     uniqueID: 2511592273
     locked: 0
-  - name: Bullets
+  - name: Attacks
     uniqueID: 427224003
     locked: 0
   - name: Overlay
