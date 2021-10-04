@@ -701,6 +701,10 @@ PrefabInstance:
       propertyPath: m_Material.m_CollidesWithCategories.m_Value.Category09
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7358713934531358278, guid: 3d6e3c269847892478b8c590ee6548d1, type: 3}
+      propertyPath: Health
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1034100386332566630, guid: 3d6e3c269847892478b8c590ee6548d1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3d6e3c269847892478b8c590ee6548d1, type: 3}
@@ -813,7 +817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 771a2ec815b4482448581b057b4d3d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetFps: 120
+  targetFps: 150
   vSyncCount: 0
 --- !u!4 &1348546373
 Transform:

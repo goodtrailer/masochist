@@ -29,6 +29,7 @@ public class PlayerSystem : SystemBase
         float time = UnityEngine.Time.time;
         float dt = Time.DeltaTime;
         Entities.ForEach((ref AttackerData a,
+            ref HealthData h,
             ref PlayerData p,
             ref StaminaData s,
             ref VelocityData v,
@@ -66,7 +67,5 @@ public class PlayerSystem : SystemBase
                 });
             }
         }).Schedule();
-
-        endSimEcbSystem.AddJobHandleForProducer(Dependency);
     }
 }

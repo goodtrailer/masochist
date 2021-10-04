@@ -1,27 +1,30 @@
 ﻿// Copyright (c) Alden Wu <aldenwu0@gmail.com>. Licensed under the MIT Licence.
 // See the LICENSE file in the repository root for full licence text.
 
-using System.ComponentModel;
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Physics;
 using Unity.Physics.Systems;
+using Unity.Transforms;
+using UnityEngine;
 
-[UpdateBefore(typeof(EndSimulationEntityCommandBufferSystem))]
-public class DestructionSystem : SystemBase
+public class DestroyerSystem : SystemBase
 {
-    private EndSimulationEntityCommandBufferSystem endSimEcbSystem;
     private BuildPhysicsWorld buildPhysicsWorld;
     private StepPhysicsWorld stepPhysicsWorld;
+    private EndSimulationEntityCommandBufferSystem endSimEcbSystem;
 
     [BurstCompile]
-    public struct TriggerEventsJob : ITriggerEventsJob
+    public struct TriggerEventsJob : ITriggerEventsJobBase
     {
-        [ReadOnly(true)]
+        [ReadOnly]
         public ComponentDataFromEntity<DestroyerTag> Destroyers;
+        [ReadOnly]
+        public BufferFromEntity<Child> Childrens;
 
-        public EntityCommandBuffer Ecb;
+        public EntityCommandBuffer.ParallelWriter Ecb;
 
         public void Execute(TriggerEvent triggerEvent)
         {
@@ -33,7 +36,7 @@ public class DestructionSystem : SystemBase
             else
                 return;
 
-            Ecb.DestroyEntity(other);
+            DestroyHelper.DestroyHierarchy(other, Ecb, Childrens);
         }
     }
 
@@ -46,10 +49,15 @@ public class DestructionSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        var ecb = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
+        var destroyers = GetComponentDataFromEntity<DestroyerTag>(true);
+        var childrens = GetBufferFromEntity<Child>(true);
+        
         new TriggerEventsJob
         {
-            Destroyers = GetComponentDataFromEntity<DestroyerTag>(),
-            Ecb = endSimEcbSystem.CreateCommandBuffer(),
+            Destroyers = destroyers,
+            Ecb = ecb,
+            Childrens = childrens,
         }.Schedule(stepPhysicsWorld.Simulation, ref buildPhysicsWorld.PhysicsWorld, Dependency).Complete();
     }
 }

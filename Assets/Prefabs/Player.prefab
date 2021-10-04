@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4121186771356763957}
   - component: {fileID: 1700701303156632279}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 3402439183747109355}
   - component: {fileID: 2910335390977936120}
   m_Layer: 0
-  m_Name: Hitbox
+  m_Name: Hitbox Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
