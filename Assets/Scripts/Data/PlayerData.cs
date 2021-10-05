@@ -15,6 +15,8 @@ public struct PlayerData : IComponentData
     public float HealthRegen;
     public float HealthDecay;
 
+    public bool SemiAutomatic;
+
     public int Level;
     public float LastLevelUpTime;
     public float LevelUpRatio;
@@ -38,6 +40,8 @@ public class PlayerConversionSystem : GameObjectConversionSystem
 
                 HealthRegen = pd.HealthRegen,
                 HealthDecay = pd.HealthDecay,
+
+                SemiAutomatic = pd.SemiAutomatic,
 
                 Level = 1,
                 LastLevelUpTime = 0f,

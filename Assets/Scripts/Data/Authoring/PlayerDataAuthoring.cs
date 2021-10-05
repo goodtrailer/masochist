@@ -24,4 +24,5 @@ public class PlayerDataAuthoring : MonoBehaviour
     public float SpeedSprint;
     [Min(0)]
     public float LevelUpRatio;
+    public bool SemiAutomatic;
 }

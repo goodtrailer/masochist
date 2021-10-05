@@ -4,10 +4,9 @@
 using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct AttackerData : IComponentData
+public struct ImmunityData : IComponentData
 {
-    public float AttackRate;
-    public float DamageMultiplier;
-    public float SpeedMultiplier;
-    public double LastAttackTime;
+    public double LastDuration;
+    public double NormalDuration;
+    public double WearOffTime;
 }

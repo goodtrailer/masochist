@@ -8,7 +8,6 @@ using Unity.Jobs;
 using Unity.Physics;
 using Unity.Physics.Systems;
 using Unity.Transforms;
-using UnityEngine;
 
 public class DestroyerSystem : SystemBase
 {
@@ -52,7 +51,7 @@ public class DestroyerSystem : SystemBase
         var ecb = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
         var destroyers = GetComponentDataFromEntity<DestroyerTag>(true);
         var childrens = GetBufferFromEntity<Child>(true);
-        
+
         new TriggerEventsJob
         {
             Destroyers = destroyers,

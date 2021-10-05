@@ -10,7 +10,7 @@ public class FpsCap : MonoBehaviour
     [Min(0)]
     public int vSyncCount;
 
-    void Start()
+    private void OnValidate()
     {
         Application.targetFrameRate = targetFps;
         QualitySettings.vSyncCount = vSyncCount;

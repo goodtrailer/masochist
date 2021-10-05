@@ -4,6 +4,6 @@
 using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct DamagerTag : IComponentData
+public struct PlayerTag : IComponentData
 {
 }
