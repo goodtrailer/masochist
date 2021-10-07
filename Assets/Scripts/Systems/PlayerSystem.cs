@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Alden Wu <aldenwu0@gmail.com>. Licensed under the MIT Licence.
 // See the LICENSE file in the repository root for full licence text.
 
+using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
+using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
@@ -13,6 +16,25 @@ public class PlayerSystem : SystemBase
     protected override void OnCreate()
     {
         endSimEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+    }
+
+    [BurstCompile]
+    public struct BombJob : IJobParallelFor
+    {
+        [ReadOnly]
+        public float Damage;
+
+        public NativeArray<HealthData> Healths;
+        public NativeArray<Entity> Entities;
+
+        public EntityCommandBuffer.ParallelWriter Ecb;
+
+        public void Execute(int index)
+        {
+            HealthData h = Healths[index];
+            h.Health -= Damage;
+            Ecb.SetComponent(0, Entities[index], h);
+        }
     }
 
     protected override void OnUpdate()
@@ -29,9 +51,13 @@ public class PlayerSystem : SystemBase
         };
         bool doAttack = Input.GetButton("Attack");
         bool doAttackDown = Input.GetButtonDown("Attack");
-        bool doDodge = Input.GetButtonDown("Dodge");
+
         bool doSprint = Input.GetButtonDown("Sprint");
         bool dontSprint = Input.GetButtonUp("Sprint");
+
+        bool doDodge = Input.GetButtonDown("Dodge");
+        bool doBomb = Input.GetButtonDown("Bomb");
+        bool doLimitBreak = Input.GetButtonDown("Limit Break");
 
         float deltaTime = Time.DeltaTime;
         double elapsedTime = Time.ElapsedTime;
@@ -61,16 +87,19 @@ public class PlayerSystem : SystemBase
         }).Schedule();
 
         // Attacking
-        Entities.WithReadOnly(damages).WithReadOnly(velocities)
-            .WithAll<PlayerTag>().ForEach((ref AttackerData a,
-            in AttackPrefabComponent ap,
-            in PlayerData pd,
-            in Translation t) =>
-        {
-            bool attacking = pd.SemiAutomatic ? doAttackDown : doAttack;
-            if (attacking && elapsedTime > a.LastAttackTime + 1 / a.AttackRate)
+        if (doAttack)
+            Entities.WithAll<PlayerTag>()
+                .WithReadOnly(damages).WithReadOnly(velocities)
+                .ForEach((ref AttackerData a,
+                in AttackPrefabComponent ap,
+                in PlayerData pd,
+                in Translation t) =>
             {
-                a.LastAttackTime = elapsedTime;
+                bool attacking = pd.SemiAutomatic ? doAttackDown : true;
+                if (!attacking || a.NextAttackableTime > elapsedTime)
+                    return;
+
+                a.NextAttackableTime = elapsedTime + 1 / a.AttackRate;
 
                 Entity attack = ecb.Instantiate(0, ap.entity);
                 ecb.SetComponent(0, attack, t);
@@ -83,20 +112,59 @@ public class PlayerSystem : SystemBase
                 vAttack.Speed *= a.SpeedMultiplier;
                 vAttack.Direction = math.up();
                 ecb.SetComponent(0, attack, vAttack);
-            }
-        }).Schedule();
+            }).Schedule();
 
         // Dodging
-        Entities.WithAll<PlayerTag>().ForEach((ref DodgeData d,
-            ref ImmunityData i) =>
-        {
-            // Dodging
-            if (doDodge && d.NextUsableTime < elapsedTime)
+        if (doDodge)
+            Entities.WithAll<PlayerTag>().ForEach((ref DodgeData d,
+                ref ImmunityData i) =>
             {
+                if (d.NextUsableTime > elapsedTime)
+                    return;
+                
                 i.LastDuration = d.Duration;
                 i.WearOffTime = elapsedTime + d.Duration;
                 d.NextUsableTime = elapsedTime + d.Cooldown;
-            }
-        }).Schedule();
+            }).Schedule();
+
+        // Bombing
+        if (doBomb)
+            Entities.WithAll<PlayerTag>().ForEach((ref BombData b) =>
+            {
+                if (b.NextUsableTime > elapsedTime)
+                    return;
+
+                b.NextUsableTime = elapsedTime + b.Cooldown;
+
+                EntityQuery enemies = GetEntityQuery(typeof(HealthData),
+                    ComponentType.ReadOnly<EnemyTag>());
+                var enemyEntities = enemies.ToEntityArray(Allocator.TempJob);
+                var enemyHealths = enemies.ToComponentDataArray<HealthData>(Allocator.TempJob);
+                new BombJob
+                {
+                    Damage = b.Damage,
+                    Entities = enemyEntities,
+                    Healths = enemyHealths,
+                    Ecb = ecb,
+                }.Schedule(enemyEntities.Length, 50).Complete();
+                enemyEntities.Dispose();
+                enemyHealths.Dispose();
+            }).WithoutBurst().Run();
+
+        // Limit breaking
+        if (doLimitBreak)
+            Entities.WithAll<PlayerTag>().ForEach((ref AttackerData a,
+                ref LimitBreakData lb) =>
+            {
+                if (lb.NextUsableTime > elapsedTime)
+                    return;
+
+                lb.NextUsableTime = elapsedTime + lb.Cooldown;
+                lb.IsLimitBroken = !lb.IsLimitBroken;
+                if (lb.IsLimitBroken)
+                    a.DamageMultiplier *= lb.DamageMultiplier;
+                else
+                    a.DamageMultiplier /= lb.DamageMultiplier;
+            }).Schedule();
     }
 }

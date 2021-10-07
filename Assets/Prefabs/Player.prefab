@@ -184,6 +184,8 @@ GameObject:
   - component: {fileID: 3294302337638146812}
   - component: {fileID: -2140219488900947064}
   - component: {fileID: -203817444912316625}
+  - component: {fileID: 9025857623816007185}
+  - component: {fileID: 716589979389970499}
   - component: {fileID: 4960647982373706418}
   - component: {fileID: -4602830592492052821}
   m_Layer: 0
@@ -512,6 +514,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Duration: 0.75
   Cooldown: 10
+  NextUsableTime: 0
+--- !u!114 &9025857623816007185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830626119289531176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28f87450e6c2f849bc1de0e268ba720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 100
+  Cooldown: 150
+  NextUsableTime: 0
+--- !u!114 &716589979389970499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830626119289531176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 285de7c267e3c2847a9b48c18202c4b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageMultiplier: 2
+  Cooldown: 15
+  IsLimitBroken: 0
   NextUsableTime: 0
 --- !u!114 &4960647982373706418
 MonoBehaviour:

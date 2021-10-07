@@ -4,10 +4,7 @@
 using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct AttackerData : IComponentData
+public class LimitBreakSliderData : IComponentData
 {
-    public float AttackRate;
-    public float DamageMultiplier;
-    public float SpeedMultiplier;
-    public double NextAttackableTime;
+    public SkillSlider Slider;
 }

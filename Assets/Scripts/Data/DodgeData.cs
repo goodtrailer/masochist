@@ -8,5 +8,6 @@ public struct DodgeData : IComponentData
 {
     public double Duration;
     public double Cooldown;
+
     public double NextUsableTime;
 }

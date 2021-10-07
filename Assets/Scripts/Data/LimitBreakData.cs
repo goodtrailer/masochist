@@ -4,10 +4,11 @@
 using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct AttackerData : IComponentData
+public struct LimitBreakData : IComponentData
 {
-    public float AttackRate;
     public float DamageMultiplier;
-    public float SpeedMultiplier;
-    public double NextAttackableTime;
+    public double Cooldown;
+
+    public bool IsLimitBroken;
+    public double NextUsableTime;
 }
