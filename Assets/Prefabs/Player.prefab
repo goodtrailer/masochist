@@ -421,7 +421,7 @@ MonoBehaviour:
   HealthDecay: 1.6
   StaminaRegen: 30
   StaminaDecay: 80
-  SpeedWalk: 1.5
+  SpeedWalk: 1.35
   SpeedSprint: 3
   SemiAutomatic: 0
 --- !u!114 &7358713934531358278
@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b23353912f46cb419e1f623a6e8025f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 10
+  Health: 100
   HealthMax: 100
 --- !u!114 &5959593322596424714
 MonoBehaviour:
@@ -513,8 +513,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelMax: 6
-  LevelUpCoefficient: 1.2
-  LevelUpExponent: 1.7
+  LevelUpCoefficient: 2
+  LevelUpExponent: 1.8
 --- !u!114 &-203817444912316625
 MonoBehaviour:
   m_ObjectHideFlags: 0
