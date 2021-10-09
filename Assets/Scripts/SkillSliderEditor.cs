@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Alden Wu <aldenwu0@gmail.com>. Licensed under the MIT Licence.
 // See the LICENSE file in the repository root for full licence text.
 
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.UI;
 using UnityEngine.UI;
@@ -28,3 +29,4 @@ public class SkillSliderEditor : SliderEditor
         base.OnInspectorGUI();
     }
 }
+#endif
