@@ -7,6 +7,7 @@ using Unity.Entities;
 public struct LimitBreakData : IComponentData
 {
     public float DamageMultiplier;
+    public float HealthMultiplier;
     public double Cooldown;
 
     public bool IsLimitBroken;

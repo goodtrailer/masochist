@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 6411180692522627582}
   - component: {fileID: 3294302337638146812}
   - component: {fileID: -2140219488900947064}
+  - component: {fileID: 5889567889164269676}
   - component: {fileID: -203817444912316625}
   - component: {fileID: 9025857623816007185}
   - component: {fileID: 716589979389970499}
@@ -416,13 +417,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1b213f04dc83a41b8a9a74ec52b9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthRegen: 2
-  HealthDecay: 5
+  HealthRegen: 5
+  HealthDecay: 1.6
   StaminaRegen: 30
   StaminaDecay: 80
   SpeedWalk: 1.5
   SpeedSprint: 3
-  LevelUpRatio: 3
   SemiAutomatic: 0
 --- !u!114 &7358713934531358278
 MonoBehaviour:
@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b23353912f46cb419e1f623a6e8025f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
+  Health: 10
   HealthMax: 100
 --- !u!114 &5959593322596424714
 MonoBehaviour:
@@ -467,7 +467,7 @@ MonoBehaviour:
   AttackRate: 8
   DamageMultiplier: 1
   SpeedMultiplier: 1
-  LastAttackTime: 0
+  NextAttackableTime: 0
 --- !u!114 &3294302337638146812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,9 +497,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9523a66f385dc4040b5eaaa514f1072a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastDuration: 0
   NormalDuration: 0.235
+  LastDuration: 0
   WearOffTime: 0
+--- !u!114 &5889567889164269676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830626119289531176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4611b01b8de77e04f94578d1a0222855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelMax: 6
+  LevelUpCoefficient: 1.2
+  LevelUpExponent: 1.7
 --- !u!114 &-203817444912316625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,7 +558,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageMultiplier: 2
-  Cooldown: 15
+  HealthMultiplier: 0.5
+  Cooldown: 8
   IsLimitBroken: 0
   NextUsableTime: 0
 --- !u!114 &4960647982373706418

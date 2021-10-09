@@ -6,7 +6,7 @@ using Unity.Entities;
 [GenerateAuthoringComponent]
 public struct ImmunityData : IComponentData
 {
-    public double LastDuration;
     public double NormalDuration;
+    public double LastDuration;
     public double WearOffTime;
 }

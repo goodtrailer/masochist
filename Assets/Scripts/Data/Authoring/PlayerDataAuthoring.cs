@@ -3,6 +3,7 @@
 
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class PlayerDataAuthoring : MonoBehaviour
 {
     [Header("Health")]
@@ -22,7 +23,5 @@ public class PlayerDataAuthoring : MonoBehaviour
     public float SpeedWalk;
     [Min(0)]
     public float SpeedSprint;
-    [Min(0)]
-    public float LevelUpRatio;
     public bool SemiAutomatic;
 }

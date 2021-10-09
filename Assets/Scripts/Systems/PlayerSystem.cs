@@ -62,7 +62,7 @@ public class PlayerSystem : SystemBase
         float deltaTime = Time.DeltaTime;
         double elapsedTime = Time.ElapsedTime;
 
-        // Moving
+        // Walk/Sprint
         Entities.WithAll<PlayerTag>().ForEach((Entity e,
             ref PlayerData p,
             ref StaminaData s) =>
@@ -86,35 +86,67 @@ public class PlayerSystem : SystemBase
             velocities[e] = v;
         }).Schedule();
 
-        // Attacking
-        if (doAttack)
-            Entities.WithAll<PlayerTag>()
-                .WithReadOnly(damages).WithReadOnly(velocities)
-                .ForEach((ref AttackerData a,
-                in AttackPrefabComponent ap,
-                in PlayerData pd,
-                in Translation t) =>
+        // Attack
+        Entities.WithAll<PlayerTag>()
+            .WithReadOnly(damages).WithReadOnly(velocities)
+            .ForEach((ref AttackerData a,
+            ref HealthData h,
+            ref LevelData l,
+            in AttackPrefabComponent ap,
+            in PlayerData p,
+            in Translation t) =>
+        {
+            bool attacking = p.SemiAutomatic ? doAttackDown : doAttack;
+            if (!attacking)
             {
-                bool attacking = pd.SemiAutomatic ? doAttackDown : true;
-                if (!attacking || a.NextAttackableTime > elapsedTime)
-                    return;
+                // Level down
+                a.DamageMultiplier *= 1 / l.Level;
+                l.Level = 1;
+                l.NextLevelUpTime = elapsedTime + l.LevelUpCoefficient;
 
-                a.NextAttackableTime = elapsedTime + 1 / a.AttackRate;
+                // Peaceful regen
+                h.Health = math.min(h.HealthMax, h.Health + p.HealthRegen * deltaTime);
 
-                Entity attack = ecb.Instantiate(0, ap.entity);
-                ecb.SetComponent(0, attack, t);
+                return;
+            }
 
-                DamageData dAttack = damages[ap.entity];
-                dAttack.Damage *= a.DamageMultiplier;
-                ecb.SetComponent(0, attack, dAttack);
+            // Level up
+            if (l.NextLevelUpTime < elapsedTime && l.Level < l.LevelMax)
+            {
+                a.DamageMultiplier *= (l.Level + 1) / l.Level;
+                l.Level++;
+                if (l.Level < l.LevelMax)
+                    l.NextLevelUpTime = elapsedTime + l.LevelUpCoefficient
+                        * math.pow(l.Level, l.LevelUpExponent);
+            }
 
-                VelocityData vAttack = velocities[ap.entity];
-                vAttack.Speed *= a.SpeedMultiplier;
-                vAttack.Direction = math.up();
-                ecb.SetComponent(0, attack, vAttack);
-            }).Schedule();
+            // Attacking regen/decay
+            float halfMax = h.HealthMax / 2f;
+            if (h.Health < halfMax)
+                h.Health = math.clamp(h.Health + (p.HealthRegen - p.HealthDecay) * deltaTime, h.Health, halfMax);
+            else
+                h.Health = math.clamp(h.Health - p.HealthDecay * deltaTime, halfMax, h.HealthMax);
 
-        // Dodging
+            // Spawning attack
+            if (a.NextAttackableTime > elapsedTime)
+                return;
+
+            a.NextAttackableTime = elapsedTime + 1 / a.AttackRate;
+
+            Entity attack = ecb.Instantiate(0, ap.entity);
+            ecb.SetComponent(0, attack, t);
+
+            DamageData dAttack = damages[ap.entity];
+            dAttack.Damage *= a.DamageMultiplier;
+            ecb.SetComponent(0, attack, dAttack);
+
+            VelocityData vAttack = velocities[ap.entity];
+            vAttack.Speed *= a.SpeedMultiplier;
+            vAttack.Direction = math.up();
+            ecb.SetComponent(0, attack, vAttack);
+        }).Schedule();
+
+        // Dodge
         if (doDodge)
             Entities.WithAll<PlayerTag>().ForEach((ref DodgeData d,
                 ref ImmunityData i) =>
@@ -127,7 +159,7 @@ public class PlayerSystem : SystemBase
                 d.NextUsableTime = elapsedTime + d.Cooldown;
             }).Schedule();
 
-        // Bombing
+        // Bomb
         if (doBomb)
             Entities.WithAll<PlayerTag>().ForEach((ref BombData b) =>
             {
@@ -151,9 +183,11 @@ public class PlayerSystem : SystemBase
                 enemyHealths.Dispose();
             }).WithoutBurst().Run();
 
-        // Limit breaking
+        // Limit break
         if (doLimitBreak)
             Entities.WithAll<PlayerTag>().ForEach((ref AttackerData a,
+                ref HealthData h,
+                ref PlayerData p,
                 ref LimitBreakData lb) =>
             {
                 if (lb.NextUsableTime > elapsedTime)
@@ -162,9 +196,21 @@ public class PlayerSystem : SystemBase
                 lb.NextUsableTime = elapsedTime + lb.Cooldown;
                 lb.IsLimitBroken = !lb.IsLimitBroken;
                 if (lb.IsLimitBroken)
+                {
                     a.DamageMultiplier *= lb.DamageMultiplier;
+                    h.Health *= lb.HealthMultiplier;
+                    h.HealthMax *= lb.HealthMultiplier;
+                    p.HealthDecay *= lb.HealthMultiplier;
+                    p.HealthRegen *= lb.HealthMultiplier;
+                }
                 else
+                {
                     a.DamageMultiplier /= lb.DamageMultiplier;
+                    h.Health /= lb.HealthMultiplier;
+                    h.HealthMax /= lb.HealthMultiplier;
+                    p.HealthDecay /= lb.HealthMultiplier;
+                    p.HealthRegen /= lb.HealthMultiplier;
+                }
             }).Schedule();
     }
 }
