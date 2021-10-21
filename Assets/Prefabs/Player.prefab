@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 3980118649315155496}
   - component: {fileID: 6576264682495189561}
   - component: {fileID: 2351901728468279251}
-  - component: {fileID: 5946267257961254577}
+  - component: {fileID: 5411338976670306594}
   - component: {fileID: 7358713934531358278}
   - component: {fileID: 5959593322596424714}
   - component: {fileID: 6411180692522627582}
@@ -405,7 +405,7 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
---- !u!114 &5946267257961254577
+--- !u!114 &5411338976670306594
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -414,16 +414,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5830626119289531176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d1b213f04dc83a41b8a9a74ec52b9a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 76de230965e5ebd498540b75b063284f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HealthRegen: 5
   HealthDecay: 1.6
-  StaminaRegen: 30
+  StaminaRegen: 18
   StaminaDecay: 80
   SpeedWalk: 1.35
   SpeedSprint: 3
   SemiAutomatic: 0
+  IsSprinting: 0
 --- !u!114 &7358713934531358278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,7 +575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18bd2ec44532d5a41a7bac82abc94344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1227995274908198131, guid: 005833d7842176d4f95ee2887509314b, type: 3}
+  Prefab: {fileID: 1227995274908198131, guid: 005833d7842176d4f95ee2887509314b, type: 3}
 --- !u!114 &-4602830592492052821
 MonoBehaviour:
   m_ObjectHideFlags: 0

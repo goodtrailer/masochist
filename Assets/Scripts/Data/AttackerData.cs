@@ -2,6 +2,7 @@
 // See the LICENSE file in the repository root for full licence text.
 
 using Unity.Entities;
+using UnityEngine;
 
 [GenerateAuthoringComponent]
 public struct AttackerData : IComponentData
@@ -9,5 +10,7 @@ public struct AttackerData : IComponentData
     public float AttackRate;
     public float DamageMultiplier;
     public float SpeedMultiplier;
+
+    [HideInInspector]
     public double NextAttackableTime;
 }

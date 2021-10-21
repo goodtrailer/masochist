@@ -92,7 +92,7 @@ public class PlayerSystem : SystemBase
             .ForEach((ref AttackerData a,
             ref HealthData h,
             ref LevelData l,
-            in AttackPrefabComponent ap,
+            in AttackPrefabData ap,
             in PlayerData p,
             in Translation t) =>
         {
@@ -133,14 +133,14 @@ public class PlayerSystem : SystemBase
 
             a.NextAttackableTime = elapsedTime + 1 / a.AttackRate;
 
-            Entity attack = ecb.Instantiate(0, ap.entity);
+            Entity attack = ecb.Instantiate(0, ap.Entity);
             ecb.SetComponent(0, attack, t);
 
-            DamageData dAttack = damages[ap.entity];
+            DamageData dAttack = damages[ap.Entity];
             dAttack.Damage *= a.DamageMultiplier;
             ecb.SetComponent(0, attack, dAttack);
 
-            VelocityData vAttack = velocities[ap.entity];
+            VelocityData vAttack = velocities[ap.Entity];
             vAttack.Speed *= a.SpeedMultiplier;
             vAttack.Direction = math.up();
             ecb.SetComponent(0, attack, vAttack);

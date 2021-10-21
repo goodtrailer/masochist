@@ -3,11 +3,11 @@
 
 using Unity.Entities;
 
-public struct AttackPrefabComponent : IPrefabComponent
+public struct AttackPrefabData : IPrefabData, IComponentData
 {
-    public Entity entity { get; set; }
+    public Entity Entity { get; set; }
 }
 
 public class AttackPrefabDeclarationSystem : PrefabDeclarationSystem<AttackPrefabAuthoring> { }
 
-public class AttackPrefabConversionSystem : PrefabConversionSystem<AttackPrefabAuthoring, AttackPrefabComponent> { }
+public class AttackPrefabConversionSystem : PrefabConversionSystem<AttackPrefabAuthoring, AttackPrefabData> { }

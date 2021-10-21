@@ -5,6 +5,7 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
+using Unity.Mathematics;
 using Unity.Physics;
 using UnityEngine.Jobs;
 
@@ -18,7 +19,8 @@ public class MovementSystem : SystemBase
             ref PhysicsVelocity pv,
             in VelocityData v) =>
         {
-            pv.Linear = v.Speed * v.Direction;
+            float3 dir = math.all(v.Direction == float3.zero) ? float3.zero : math.normalize(v.Direction);
+            pv.Linear = v.Speed * dir;
         }).WithBurst().Schedule();
     }
 }

@@ -2,43 +2,30 @@
 // See the LICENSE file in the repository root for full licence text.
 
 using Unity.Entities;
+using UnityEngine;
 
+[GenerateAuthoringComponent]
 public struct PlayerData : IComponentData
 {
-    public float SpeedWalk;
-    public float SpeedSprint;
-    public bool IsSprinting;
-
-    public float StaminaRegen;
-    public float StaminaDecay;
-
+    [Header("Health")]
+    [Min(0)]
     public float HealthRegen;
+    [Min(0)]
     public float HealthDecay;
 
+    [Header("Stamina")]
+    [Min(0)]
+    public float StaminaRegen;
+    [Min(0)]
+    public float StaminaDecay;
+
+    [Header("Misc")]
+    [Min(0)]
+    public float SpeedWalk;
+    [Min(0)]
+    public float SpeedSprint;
     public bool SemiAutomatic;
-}
 
-public class PlayerConversionSystem : GameObjectConversionSystem
-{
-    protected override void OnUpdate()
-    {
-        Entities.ForEach((PlayerDataAuthoring pd) =>
-        {
-            Entity e = GetPrimaryEntity(pd);
-            DstEntityManager.AddComponentData(e, new PlayerData
-            {
-                SpeedWalk = pd.SpeedWalk,
-                SpeedSprint = pd.SpeedSprint,
-                IsSprinting = false,
-
-                StaminaRegen = pd.StaminaRegen,
-                StaminaDecay = pd.StaminaDecay,
-
-                HealthRegen = pd.HealthRegen,
-                HealthDecay = pd.HealthDecay,
-
-                SemiAutomatic = pd.SemiAutomatic,
-            });
-        });
-    }
+    [HideInInspector]
+    public bool IsSprinting;
 }

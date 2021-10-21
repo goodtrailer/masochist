@@ -5,14 +5,14 @@ using Unity.Entities;
 using UnityEngine;
 
 [GenerateAuthoringComponent]
-public struct LimitBreakData : IComponentData
+public struct SpawnerData : IComponentData
 {
-    public float DamageMultiplier;
-    public float HealthMultiplier;
-    public double Cooldown;
+    public double RestDuration;
 
     [HideInInspector]
-    public bool IsLimitBroken;
+    public int Wave;
     [HideInInspector]
-    public double NextUsableTime;
+    public double NextSpawnTime;
+    [HideInInspector]
+    public bool Resting;
 }

@@ -2,6 +2,7 @@
 // See the LICENSE file in the repository root for full licence text.
 
 using Unity.Entities;
+using UnityEngine;
 
 [GenerateAuthoringComponent]
 public struct BombData : IComponentData
@@ -9,5 +10,6 @@ public struct BombData : IComponentData
     public float Damage;
     public double Cooldown;
 
+    [HideInInspector]
     public double NextUsableTime;
 }
