@@ -24,9 +24,9 @@ public class SpawnerSystem : SystemBase
 
         double elapsedTime = Time.ElapsedTime;
 
-        Entities.ForEach((Entity e, DynamicBuffer<WavePrefabData> w, ref SpawnerData s) =>
+        Entities.ForEach((Entity e, DynamicBuffer<WavePrefabData> bw, ref SpawnerData s) =>
         {
-            if (s.Wave >= w.Length)
+            if (s.Wave >= bw.Length)
             {
                 DestroyHelper.DestroyHierarchy(e, ecb, childrens);
                 return;
@@ -43,7 +43,7 @@ public class SpawnerSystem : SystemBase
             }
 
             s.Resting = false;
-            ecb.Instantiate(0, w[s.Wave].Entity);
+            ecb.Instantiate(0, bw[s.Wave].Entity);
             s.Wave++;
         }).Schedule();
     }

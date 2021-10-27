@@ -51,6 +51,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 626813446572532913}
     m_Modifications:
+    - target: {fileID: -9023213006783127377, guid: 067243911da4a9047b9cf56b2d4e326d, type: 3}
+      propertyPath: Stages.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9023213006783127377, guid: 067243911da4a9047b9cf56b2d4e326d, type: 3}
+      propertyPath: Stages.Array.data[0].DrawHandles
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9023213006783127377, guid: 067243911da4a9047b9cf56b2d4e326d, type: 3}
+      propertyPath: Stages.Array.data[0].Destinations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9023213006783127377, guid: 067243911da4a9047b9cf56b2d4e326d, type: 3}
+      propertyPath: Stages.Array.data[0].Destinations.Array.data[0].y
+      value: 2.35
+      objectReference: {fileID: 0}
     - target: {fileID: 1496372645516954415, guid: 067243911da4a9047b9cf56b2d4e326d, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -61,7 +77,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1496372645516954415, guid: 067243911da4a9047b9cf56b2d4e326d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.35
+      value: 6.2
       objectReference: {fileID: 0}
     - target: {fileID: 1496372645516954415, guid: 067243911da4a9047b9cf56b2d4e326d, type: 3}
       propertyPath: m_LocalPosition.z

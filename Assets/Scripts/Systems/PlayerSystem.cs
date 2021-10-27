@@ -79,7 +79,7 @@ public class PlayerSystem : SystemBase
 
             VelocityData v = velocities[e];     // what the fuck is this shit, theres no way youre gonna make me use a job for some bs like this
             v.Speed = p.IsSprinting ? p.SpeedSprint : p.SpeedWalk;
-            v.Direction = math.normalize(input);
+            v.Direction = input;
             bool3 dirNan = math.isnan(v.Direction);
             if (dirNan.x || dirNan.y || dirNan.z)
                 v.Direction = float3.zero;
@@ -100,9 +100,12 @@ public class PlayerSystem : SystemBase
             if (!attacking)
             {
                 // Level down
-                a.DamageMultiplier *= 1 / l.Level;
-                l.Level = 1;
-                l.NextLevelUpTime = elapsedTime + l.LevelUpCoefficient;
+                float oldLevelMultiplier = (l.Level - 1f) * l.LevelCoefficient + 1f;
+                l.Level = 1f;
+                float newLevelMultiplier = (l.Level - 1f) * l.LevelCoefficient + 1f;
+
+                a.DamageMultiplier *= newLevelMultiplier / oldLevelMultiplier;
+                l.NextLevelUpTime = elapsedTime + l.XpCoefficient;
 
                 // Peaceful regen
                 h.Health = math.min(h.HealthMax, h.Health + p.HealthRegen * deltaTime);
@@ -113,11 +116,14 @@ public class PlayerSystem : SystemBase
             // Level up
             if (l.NextLevelUpTime < elapsedTime && l.Level < l.LevelMax)
             {
-                a.DamageMultiplier *= (l.Level + 1) / l.Level;
+                float oldLevelMultiplier = (l.Level - 1f) * l.LevelCoefficient + 1f;
                 l.Level++;
+                float newLevelMultiplier = (l.Level - 1f) * l.LevelCoefficient + 1f;
+
+                a.DamageMultiplier *= newLevelMultiplier / oldLevelMultiplier;
                 if (l.Level < l.LevelMax)
-                    l.NextLevelUpTime = elapsedTime + l.LevelUpCoefficient
-                        * math.pow(l.Level, l.LevelUpExponent);
+                    l.NextLevelUpTime = elapsedTime + l.XpCoefficient
+                        * math.pow(l.Level, l.XpExponent);
             }
 
             // Attacking regen/decay

@@ -10,7 +10,12 @@ public class LevelDataAuthoring : MonoBehaviour
     [Min(1)]
     public float LevelMax;
     [Min(0)]
-    public float LevelUpCoefficient;
+    public float LevelCoefficient;
+
+    [Space]
+
     [Min(0)]
-    public float LevelUpExponent;
+    public float XpCoefficient;
+    [Min(0)]
+    public float XpExponent;
 }

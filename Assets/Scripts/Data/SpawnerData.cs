@@ -9,7 +9,6 @@ public struct SpawnerData : IComponentData
 {
     public double RestDuration;
 
-    [HideInInspector]
     public int Wave;
     [HideInInspector]
     public double NextSpawnTime;

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7288938884697738213}
   - component: {fileID: 3047825509122233047}
   - component: {fileID: 9001572767820257864}
+  - component: {fileID: -2665172645584909408}
+  - component: {fileID: -9023213006783127377}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Untagged
@@ -254,6 +256,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bfefb5ed34d23844b36a30dd12c90eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2665172645584909408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666466564288662751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2800a393dac814546acd2f4ba1a45603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 2
+  Direction:
+    x: 0
+    y: 0
+    z: 0
+--- !u!114 &-9023213006783127377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666466564288662751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7bad784b31e1f4895140400d6a8a2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stages:
+  - HealthMin: 0
+    Reverses: 0
+    Destinations:
+    - {x: 0, y: 0}
 --- !u!1 &3963051120481361724
 GameObject:
   m_ObjectHideFlags: 0

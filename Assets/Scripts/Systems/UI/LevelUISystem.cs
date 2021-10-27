@@ -10,7 +10,7 @@ public class LevelUISystem : SystemBase
     {
         Entities.ForEach((LevelUIData lUI, in LevelData l) =>
         {
-            double duration = l.LevelUpCoefficient * math.pow(l.Level, l.LevelUpExponent);
+            double duration = l.XpCoefficient * math.pow(l.Level, l.XpExponent);
             double lastLevelUp = l.NextLevelUpTime - duration;
             lUI.XpSlider.value = (float)((Time.ElapsedTime - lastLevelUp) / duration);
             lUI.NumberText.text = math.round(l.Level).ToString("#");

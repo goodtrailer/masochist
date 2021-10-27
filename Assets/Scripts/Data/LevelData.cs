@@ -7,9 +7,11 @@ public struct LevelData : IComponentData
 {
     public float Level;
     public float LevelMax;
+    public float LevelCoefficient;
+
     public double NextLevelUpTime;
-    public float LevelUpCoefficient;
-    public float LevelUpExponent;
+    public float XpCoefficient;
+    public float XpExponent;
 }
 
 public class LevelConversionSystem : GameObjectConversionSystem
@@ -23,9 +25,12 @@ public class LevelConversionSystem : GameObjectConversionSystem
             {
                 Level = 1f,
                 LevelMax = ld.LevelMax,
-                NextLevelUpTime = Time.ElapsedTime + ld.LevelUpCoefficient,
-                LevelUpCoefficient = ld.LevelUpCoefficient,
-                LevelUpExponent = ld.LevelUpExponent,
+
+                LevelCoefficient = ld.LevelCoefficient,
+
+                NextLevelUpTime = Time.ElapsedTime + ld.XpCoefficient,
+                XpCoefficient = ld.XpCoefficient,
+                XpExponent = ld.XpExponent,
             });
         });
     }
