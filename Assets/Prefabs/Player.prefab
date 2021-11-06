@@ -547,7 +547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 100
-  Cooldown: 1
+  Cooldown: 150
   NextUsableTime: 0
 --- !u!114 &716589979389970499
 MonoBehaviour:

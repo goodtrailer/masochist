@@ -3,11 +3,9 @@
 
 using TMPro;
 using Unity.Entities;
-using UnityEngine.UI;
 
 [GenerateAuthoringComponent]
-public class LevelUIData : IComponentData
+public class TimeUIData : IComponentData
 {
-    public Slider XpSlider;
-    public TMP_Text NumberText;
+    public TMP_Text TimeText;
 }
