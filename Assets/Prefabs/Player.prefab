@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 9025857623816007185}
   - component: {fileID: 716589979389970499}
   - component: {fileID: 4960647982373706418}
+  - component: {fileID: 435806336274992961}
   - component: {fileID: -4602830592492052821}
   m_Layer: 0
   m_Name: Player
@@ -513,7 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4611b01b8de77e04f94578d1a0222855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelMax: 4
+  LevelMax: 6
   LevelCoefficient: 0.2
   XpCoefficient: 6
   XpExponent: 1.8
@@ -559,7 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 285de7c267e3c2847a9b48c18202c4b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageMultiplier: 2
+  DamageMultiplier: 1
   HealthMultiplier: 0.5
   Cooldown: 8
   IsLimitBroken: 0
@@ -576,7 +577,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18bd2ec44532d5a41a7bac82abc94344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 1227995274908198131, guid: 005833d7842176d4f95ee2887509314b, type: 3}
+  GameObject: {fileID: 1227995274908198131, guid: 005833d7842176d4f95ee2887509314b, type: 3}
+--- !u!114 &435806336274992961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830626119289531176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e838415674092468fd4ae48ac0c52b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameObject: {fileID: 1425438603472977123, guid: addd2f412a4373d49a7338365c6b2657, type: 3}
 --- !u!114 &-4602830592492052821
 MonoBehaviour:
   m_ObjectHideFlags: 0

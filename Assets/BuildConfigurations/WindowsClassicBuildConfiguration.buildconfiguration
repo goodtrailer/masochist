@@ -13,8 +13,16 @@
             "BuildCurrentScene": false,
             "SceneInfos": [
                 {
-                    "Scene": "GlobalObjectId_V1-1-24361854b39230244b15aa5b8cfd5399-102900000-0",
+                    "Scene": "GlobalObjectId_V1-1-a64461561b169a34e8242a9dd1c8b017-102900000-0",
                     "AutoLoad": true
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-24361854b39230244b15aa5b8cfd5399-102900000-0",
+                    "AutoLoad": false
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-1d81a62d3d61594468066b0e3f507ec5-102900000-0",
+                    "AutoLoad": false
                 }
             ]
         },

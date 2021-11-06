@@ -93,6 +93,8 @@ public class PlayerSystem : SystemBase
             ref HealthData h,
             ref LevelData l,
             in AttackPrefabData ap,
+            in LimitBreakData lb,
+            in LimitBreakAttackPrefabData lbap,
             in PlayerData p,
             in Translation t) =>
         {
@@ -104,10 +106,10 @@ public class PlayerSystem : SystemBase
                 l.Level = 1f;
                 float newLevelMultiplier = (l.Level - 1f) * l.LevelCoefficient + 1f;
 
-                a.DamageMultiplier *= newLevelMultiplier / oldLevelMultiplier;
+                a.AttackRate *= newLevelMultiplier / oldLevelMultiplier;
                 l.NextLevelUpTime = elapsedTime + l.XpCoefficient;
 
-                // Peaceful regen
+                // Health regen
                 h.Health = math.min(h.HealthMax, h.Health + p.HealthRegen * deltaTime);
 
                 return;
@@ -120,18 +122,15 @@ public class PlayerSystem : SystemBase
                 l.Level++;
                 float newLevelMultiplier = (l.Level - 1f) * l.LevelCoefficient + 1f;
 
-                a.DamageMultiplier *= newLevelMultiplier / oldLevelMultiplier;
+                a.AttackRate *= newLevelMultiplier / oldLevelMultiplier;
                 if (l.Level < l.LevelMax)
                     l.NextLevelUpTime = elapsedTime + l.XpCoefficient
                         * math.pow(l.Level, l.XpExponent);
             }
 
-            // Attacking regen/decay
-            float halfMax = h.HealthMax / 2f;
-            if (h.Health < halfMax)
-                h.Health = math.clamp(h.Health + (p.HealthRegen - p.HealthDecay) * deltaTime, h.Health, halfMax);
-            else
-                h.Health = math.clamp(h.Health - p.HealthDecay * deltaTime, halfMax, h.HealthMax);
+            // Health decay
+            if (h.Health > h.HealthMax / 2)
+                h.Health = math.max(0, h.Health - p.HealthDecay * deltaTime);
 
             // Spawning attack
             if (a.NextAttackableTime > elapsedTime)
@@ -139,14 +138,15 @@ public class PlayerSystem : SystemBase
 
             a.NextAttackableTime = elapsedTime + 1 / a.AttackRate;
 
-            Entity attack = ecb.Instantiate(0, ap.Entity);
+            Entity original = lb.IsLimitBroken ? lbap.Entity : ap.Entity;
+            Entity attack = ecb.Instantiate(0, original);
             ecb.SetComponent(0, attack, t);
 
-            DamageData dAttack = damages[ap.Entity];
+            DamageData dAttack = damages[original];
             dAttack.Damage *= a.DamageMultiplier;
             ecb.SetComponent(0, attack, dAttack);
 
-            VelocityData vAttack = velocities[ap.Entity];
+            VelocityData vAttack = velocities[original];
             vAttack.Speed *= a.SpeedMultiplier;
             vAttack.Direction = math.up();
             ecb.SetComponent(0, attack, vAttack);

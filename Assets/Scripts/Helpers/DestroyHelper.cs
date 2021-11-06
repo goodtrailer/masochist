@@ -18,4 +18,17 @@ public static class DestroyHelper
         foreach (Child c in childrens[entity])
             DestroyHierarchy(c.Value, entityCommandBuffer, childrens);
     }
+
+    public static void DestroyHierarchy(in Entity entity,
+            in EntityCommandBuffer entityCommandBuffer,
+            in BufferFromEntity<Child> childrens)
+    {
+        entityCommandBuffer.DestroyEntity(entity);
+
+        if (!childrens.HasComponent(entity))
+            return;
+
+        foreach (Child c in childrens[entity])
+            DestroyHierarchy(c.Value, entityCommandBuffer, childrens);
+    }
 }

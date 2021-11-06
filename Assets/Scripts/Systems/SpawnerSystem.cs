@@ -1,16 +1,22 @@
 ﻿// Copyright (c) Alden Wu <aldenwu0@gmail.com>. Licensed under the MIT Licence.
 // See the LICENSE file in the repository root for full licence text.
 
+using Unity.Collections;
 using Unity.Entities;
+using Unity.Scenes;
 using Unity.Transforms;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpawnerSystem : SystemBase
 {
     private EndSimulationEntityCommandBufferSystem endSimEcbSystem;
+    private SceneSystem sceneSystem;
 
     protected override void OnCreate()
     {
         endSimEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        sceneSystem = World.GetOrCreateSystem<SceneSystem>();
     }
 
     protected override void OnUpdate()
@@ -19,12 +25,15 @@ public class SpawnerSystem : SystemBase
         if (!enemies.IsEmpty)
             return;
 
-        var ecb = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
+        var ecb = endSimEcbSystem.CreateCommandBuffer();
+
         BufferFromEntity<Child> childrens = GetBufferFromEntity<Child>();
 
         double elapsedTime = Time.ElapsedTime;
 
-        Entities.ForEach((Entity e, DynamicBuffer<WavePrefabData> bw, ref SpawnerData s) =>
+        var toLoad = new NativeList<WaveSceneData>(Allocator.Temp);
+
+        Entities.ForEach((Entity e, DynamicBuffer<WaveSceneData> bw, ref SpawnerData s) =>
         {
             if (s.Wave >= bw.Length)
             {
@@ -35,16 +44,25 @@ public class SpawnerSystem : SystemBase
             if (elapsedTime < s.NextSpawnTime)
                 return;
 
+            s.NextSpawnTime = elapsedTime + s.RestDuration;
+
             if (!s.Resting)
             {
                 s.Resting = true;
-                s.NextSpawnTime = elapsedTime + s.RestDuration;
                 return;
             }
 
             s.Resting = false;
-            ecb.Instantiate(0, bw[s.Wave].Entity);
+            toLoad.Add(bw[s.Wave]);
             s.Wave++;
-        }).Schedule();
+        }).WithoutBurst().Run();
+
+        foreach (var ws in toLoad)
+        {
+            Debug.Log(ws.GUID);
+            sceneSystem.LoadSceneAsync(ws.GUID);
+        }
+
+        toLoad.Dispose();
     }
 }
