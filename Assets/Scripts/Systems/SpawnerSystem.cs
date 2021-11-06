@@ -58,10 +58,7 @@ public class SpawnerSystem : SystemBase
         }).WithoutBurst().Run();
 
         foreach (var ws in toLoad)
-        {
-            Debug.Log(ws.GUID);
             sceneSystem.LoadSceneAsync(ws.GUID);
-        }
 
         toLoad.Dispose();
     }

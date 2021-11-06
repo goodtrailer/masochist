@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 9025857623816007185}
   - component: {fileID: 716589979389970499}
   - component: {fileID: 4960647982373706418}
+  - component: {fileID: -6495827800334193002}
   - component: {fileID: 435806336274992961}
   - component: {fileID: -4602830592492052821}
   m_Layer: 0
@@ -420,9 +421,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthRegen: 5
   HealthDecay: 1.6
-  StaminaRegen: 18
-  StaminaDecay: 80
-  SpeedWalk: 1.35
+  StaminaRegen: 16
+  StaminaDecay: 64
+  SpeedWalk: 1.42
   SpeedSprint: 3
   SemiAutomatic: 0
   IsSprinting: 0
@@ -546,7 +547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 100
-  Cooldown: 150
+  Cooldown: 1
   NextUsableTime: 0
 --- !u!114 &716589979389970499
 MonoBehaviour:
@@ -578,6 +579,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameObject: {fileID: 1227995274908198131, guid: 005833d7842176d4f95ee2887509314b, type: 3}
+--- !u!114 &-6495827800334193002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830626119289531176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a8a8bee0e932d4c9b98aa9ddf64629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameObject: {fileID: 4866502949986191687, guid: 1ec7b5c81bae0f240a29471457a58b44, type: 3}
 --- !u!114 &435806336274992961
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -52,6 +52,22 @@ public class DestroyerSystem : SystemBase
         var destroyers = GetComponentDataFromEntity<DestroyerTag>(true);
         var childrens = GetBufferFromEntity<Child>(true);
 
+        double elapsedTime = Time.ElapsedTime;
+
+        Entities.ForEach((Entity e, ref TimedDestroyData td) =>
+        {
+            if (td.AutoStartTime)
+            {
+                td.AutoStartTime = false;
+                td.StartTime = elapsedTime;
+            }
+
+            if (td.StartTime + td.AliveDuration > elapsedTime)
+                return;
+
+            DestroyHelper.DestroyHierarchy(e, ecb, childrens);
+        }).Schedule();
+
         new TriggerEventsJob
         {
             Destroyers = destroyers,

@@ -39,7 +39,8 @@ public class PlayerSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        var ecb = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
+        var ecbSeq = endSimEcbSystem.CreateCommandBuffer();
+        var ecb = ecbSeq.AsParallelWriter();
         var damages = GetComponentDataFromEntity<DamageData>();
         var velocities = GetComponentDataFromEntity<VelocityData>();
 
@@ -167,15 +168,19 @@ public class PlayerSystem : SystemBase
 
         // Bomb
         if (doBomb)
-            Entities.WithAll<PlayerTag>().ForEach((ref BombData b) =>
+        {
+            EntityQuery enemies = GetEntityQuery(typeof(HealthData),
+                    ComponentType.ReadOnly<EnemyTag>());
+            Entities.WithAll<PlayerTag>().ForEach((ref BombData b,
+                in BombPrefabData bp) =>
             {
                 if (b.NextUsableTime > elapsedTime)
                     return;
 
                 b.NextUsableTime = elapsedTime + b.Cooldown;
 
-                EntityQuery enemies = GetEntityQuery(typeof(HealthData),
-                    ComponentType.ReadOnly<EnemyTag>());
+                ecbSeq.Instantiate(bp.Entity);
+
                 var enemyEntities = enemies.ToEntityArray(Allocator.TempJob);
                 var enemyHealths = enemies.ToComponentDataArray<HealthData>(Allocator.TempJob);
                 new BombJob
@@ -188,6 +193,7 @@ public class PlayerSystem : SystemBase
                 enemyEntities.Dispose();
                 enemyHealths.Dispose();
             }).WithoutBurst().Run();
+        }   
 
         // Limit break
         if (doLimitBreak)
@@ -206,16 +212,12 @@ public class PlayerSystem : SystemBase
                     a.DamageMultiplier *= lb.DamageMultiplier;
                     h.Health *= lb.HealthMultiplier;
                     h.HealthMax *= lb.HealthMultiplier;
-                    p.HealthDecay *= lb.HealthMultiplier;
-                    p.HealthRegen *= lb.HealthMultiplier;
                 }
                 else
                 {
                     a.DamageMultiplier /= lb.DamageMultiplier;
                     h.Health /= lb.HealthMultiplier;
                     h.HealthMax /= lb.HealthMultiplier;
-                    p.HealthDecay /= lb.HealthMultiplier;
-                    p.HealthRegen /= lb.HealthMultiplier;
                 }
             }).Schedule();
     }
