@@ -3,9 +3,8 @@
 
 using Unity.Entities;
 
-public struct RunData : IComponentData
+[GenerateAuthoringComponent]
+public class EndScreenUIData : IComponentData
 {
-    public double StartTime;
-    public double EndTime;
-    public bool InProgress;
+    public EndScreen Screen;
 }

@@ -9,11 +9,14 @@ public class TimeUISystem : SystemBase
 {
     protected override void OnUpdate()
     {
-        double elapsedTime = Time.ElapsedTime;
         RunData r = GetSingleton<RunData>();
+        if (!r.InProgress)
+            return;
+
+        double elapsedTime = Time.ElapsedTime;
+
         Entities.ForEach((TimeUIData tUI) =>
         {
-            Debug.Log("bruh");
             int time = (int)(elapsedTime - r.StartTime);
             tUI.TimeText.text = string.Format("{0:D2}:{1:D2}", time / 60, time % 60);
         }).WithoutBurst().Run();
