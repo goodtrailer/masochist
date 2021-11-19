@@ -44,21 +44,23 @@ public class PlayerSystem : SystemBase
         var damages = GetComponentDataFromEntity<DamageData>();
         var velocities = GetComponentDataFromEntity<VelocityData>();
 
-        float3 input = new float3
+        float3 directional = new float3
         {
             x = Input.GetAxisRaw("Horizontal"),
             y = Input.GetAxisRaw("Vertical"),
-            z = 0
+            z = 0f,
         };
+
         bool doAttack = Input.GetButton("Attack");
         bool doAttackDown = Input.GetButtonDown("Attack");
 
         bool doSprint = Input.GetButtonDown("Sprint");
         bool dontSprint = Input.GetButtonUp("Sprint");
 
-        bool doDodge = Input.GetButtonDown("Dodge");
         bool doBomb = Input.GetButtonDown("Bomb");
+        bool doDodge = Input.GetButtonDown("Dodge");
         bool doLimitBreak = Input.GetButtonDown("Limit Break");
+
 
         float deltaTime = Time.DeltaTime;
         double elapsedTime = Time.ElapsedTime;
@@ -80,7 +82,7 @@ public class PlayerSystem : SystemBase
 
             VelocityData v = velocities[e];     // what the fuck is this shit, theres no way youre gonna make me use a job for some bs like this
             v.Speed = p.IsSprinting ? p.SpeedSprint : p.SpeedWalk;
-            v.Direction = input;
+            v.Direction = directional;
             bool3 dirNan = math.isnan(v.Direction);
             if (dirNan.x || dirNan.y || dirNan.z)
                 v.Direction = float3.zero;
@@ -220,5 +222,7 @@ public class PlayerSystem : SystemBase
                     h.HealthMax /= lb.HealthMultiplier;
                 }
             }).Schedule();
+
+        endSimEcbSystem.AddJobHandleForProducer(Dependency);
     }
 }

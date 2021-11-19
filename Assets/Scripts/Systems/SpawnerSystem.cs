@@ -28,38 +28,45 @@ public class SpawnerSystem : SystemBase
         var ecb = endSimEcbSystem.CreateCommandBuffer();
 
         BufferFromEntity<Child> childrens = GetBufferFromEntity<Child>();
-
+        
         double elapsedTime = Time.ElapsedTime;
 
-        var toLoad = new NativeList<WaveSceneData>(Allocator.Temp);
-
-        Entities.ForEach((Entity e, DynamicBuffer<WaveSceneData> bw, ref SpawnerData s) =>
+        using (var toLoad = new NativeList<WaveSceneData>(Allocator.Temp))
         {
-            if (s.Wave >= bw.Length)
+            Entities.ForEach((Entity e,
+                DynamicBuffer<WaveSceneData> bw,
+                ref SpawnerData s) =>
             {
-                DestroyHelper.DestroyHierarchy(e, ecb, childrens);
-                return;
-            }
+                if (s.Wave >= bw.Length)
+                {
+                    ComponentDataFromEntity<TimedDestroyData> timedDestroys = GetComponentDataFromEntity<TimedDestroyData>();
+                    if (!timedDestroys.HasComponent(e))
+                        ecb.AddComponent(e, new TimedDestroyData
+                        {
+                            StartTime = elapsedTime,
+                            AliveDuration = 1.0,
+                        });
+                    return;
+                }
+                
+                if (elapsedTime < s.NextSpawnTime)
+                    return;
 
-            if (elapsedTime < s.NextSpawnTime)
-                return;
+                s.NextSpawnTime = elapsedTime + s.RestDuration;
 
-            s.NextSpawnTime = elapsedTime + s.RestDuration;
+                if (!s.Resting)
+                {
+                    s.Resting = true;
+                    return;
+                }
 
-            if (!s.Resting)
-            {
-                s.Resting = true;
-                return;
-            }
+                s.Resting = false;
+                toLoad.Add(bw[s.Wave]);
+                s.Wave++;
+            }).WithoutBurst().Run();
 
-            s.Resting = false;
-            toLoad.Add(bw[s.Wave]);
-            s.Wave++;
-        }).WithoutBurst().Run();
-
-        foreach (var ws in toLoad)
-            sceneSystem.LoadSceneAsync(ws.GUID);
-
-        toLoad.Dispose();
+            foreach (var ws in toLoad)
+                sceneSystem.LoadSceneAsync(ws.GUID);
+        }
     }
 }

@@ -18,12 +18,12 @@ public class TimedDestroySystem : SystemBase
     protected override void OnUpdate()
     {
         var ecb = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
-        var destroyers = GetComponentDataFromEntity<DestroyerTag>(true);
         var childrens = GetBufferFromEntity<Child>(true);
 
         double elapsedTime = Time.ElapsedTime;
 
-        Entities.ForEach((Entity e, ref TimedDestroyData td) =>
+        Entities.WithReadOnly(childrens)
+            .ForEach((Entity e, ref TimedDestroyData td) =>
         {
             if (td.AutoStartTime)
             {
@@ -36,5 +36,7 @@ public class TimedDestroySystem : SystemBase
 
             DestroyHelper.DestroyHierarchy(e, ecb, childrens);
         }).Schedule();
+
+        endSimEcbSystem.AddJobHandleForProducer(Dependency);
     }
 }

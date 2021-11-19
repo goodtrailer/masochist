@@ -52,8 +52,6 @@ public class DestroyerSystem : SystemBase
         var destroyers = GetComponentDataFromEntity<DestroyerTag>(true);
         var childrens = GetBufferFromEntity<Child>(true);
 
-        double elapsedTime = Time.ElapsedTime;
-
         new TriggerEventsJob
         {
             Destroyers = destroyers,

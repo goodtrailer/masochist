@@ -78,6 +78,8 @@ public class DamageSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        var ecb = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
+
         new TriggerEventsJob
         {
             Childrens = GetBufferFromEntity<Child>(true),
@@ -86,7 +88,7 @@ public class DamageSystem : SystemBase
 
             Healths = GetComponentDataFromEntity<HealthData>(false),
             Immunities = GetComponentDataFromEntity<ImmunityData>(false),
-            Ecb = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter(),
+            Ecb = ecb,
         }.Schedule(stepPhysicsWorld.Simulation, ref buildPhysicsWorld.PhysicsWorld, Dependency).Complete();
     }
 }

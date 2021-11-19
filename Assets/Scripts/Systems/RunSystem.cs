@@ -2,42 +2,51 @@
 // See the LICENSE file in the repository root for full licence text.
 
 using Unity.Entities;
+using UnityEngine;
 
 public class RunSystem : SystemBase
 {
-    protected override void OnStartRunning()
+    bool prevEmpty = true;
+
+    protected override void OnCreate()
     {
-        base.OnStartRunning();
+        base.OnCreate();
 
         EntityManager.CreateEntity(typeof(RunData));
-
         SetSingleton(new RunData
         {
-            StartTime = Time.ElapsedTime,
-            InProgress = true,
+            StartTime = 0.0,
+            InProgress = false,
         });
     }
 
     protected override void OnUpdate()
     {
-        var r = GetSingleton<RunData>();
-        if (!r.InProgress)
-            return;
-        EntityQuery spawners = GetEntityQuery(ComponentType.ReadOnly<SpawnerData>());
-        if (!spawners.IsEmpty)
-            return;
-        EntityQuery enemies = GetEntityQuery(ComponentType.ReadOnly<EnemyTag>());
-        if (!enemies.IsEmpty)
-            return;
-
-        r.EndTime = Time.ElapsedTime;
-        r.InProgress = false;
-        SetSingleton(r);
-
-        Entities.ForEach((EndScreenUIData esUI) =>
+        EntityQueryDesc query = new EntityQueryDesc
         {
-            int time = (int)(r.EndTime - r.StartTime);
-            esUI.Screen.Show(string.Format("{0:D2}:{1:D2}", time / 60, time % 60));
-        }).WithoutBurst().Run();
+            Any = new ComponentType[]
+            {
+                ComponentType.ReadOnly<SpawnerData>(),
+                ComponentType.ReadOnly<EnemyTag>(),
+            },
+        };
+
+        bool empty = GetEntityQuery(query).IsEmpty;
+        if (prevEmpty == empty)
+            return;
+        prevEmpty = empty;
+
+        RunData r = GetSingleton<RunData>();
+        if (empty)
+        {
+            r.EndTime = Time.ElapsedTime;
+            r.InProgress = false;
+        }
+        else
+        {
+            r.StartTime = Time.ElapsedTime;
+            r.InProgress = true;
+        }
+        SetSingleton(r);
     }
 }

@@ -19,10 +19,11 @@ public class HealthSystem : SystemBase
         var ecb = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
         var childrens = GetBufferFromEntity<Child>(true);
 
-        Entities.ForEach((Entity e, in HealthData h) =>
+        Entities.WithReadOnly(childrens)
+            .ForEach((Entity e, in HealthData h) =>
         {
             if (h.Health <= 0)
                 DestroyHelper.DestroyHierarchy(e, ecb, childrens);
-        }).Schedule();
+        }).ScheduleParallel();
     }
 }
