@@ -4,18 +4,20 @@ Unfinished as of the deadline, 11/18/2021.
 
 Continuing development 👍
 
-[Pre-alpha download](https://drive.google.com/file/d/1CTXMSrO27RSoZzcTpQPLSlFpFz8JrH0d/view?usp=sharing)<br />
+### Pre-alpha download
+* [Windows (64-bit)](https://drive.google.com/file/d/1CTXMSrO27RSoZzcTpQPLSlFpFz8JrH0d/view?usp=sharing)
+
 *Last updated: 11/18/2021*
 
 ---
 
 ### Controls
-`W/A/S/D` Movement
-`SHIFT` Sprint
-`J` Attack
-`K` Dodge
-`L` Limit Break
-`I` Bomb
+* `W/A/S/D` Movement
+* `SHIFT` Sprint
+* `J` Attack
+* `K` Dodge
+* `L` Limit Break
+* `I` Bomb
 
 ### Overview
 Attacking slowly consumes your HP, hence the title "masochist". This effect stops at 50%. HP only regenerates while not attacking. Attacking also slowly increases your level. Higher levels = faster attack speed.
